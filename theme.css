@@ -1,0 +1,118 @@
+/* CiviAI shared theme — same tokens as the main app, so Project Tracker
+   and the Verification Console feel like one product, not a bolt-on. */
+:root{
+  --bg:#0b1220;
+  --surface:#131c2e;
+  --surface-2:#0f1728;
+  --border:#223049;
+  --teal:#14b8a6;
+  --teal-dim:rgba(20,184,166,0.14);
+  --white:#f5f7fa;
+  --slate:#8b98ac;
+  --danger:#f87171;
+  --danger-dim:rgba(248,113,113,0.14);
+  --warning:#f5b942;
+  --warning-dim:rgba(245,185,66,0.14);
+  --purple:#a78bfa;
+  --purple-dim:rgba(167,139,250,0.14);
+  --blue:#60a5fa;
+  --radius:14px;
+  --radius-sm:9px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;height:100%;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;}
+button{font-family:inherit;}
+h1,h2,h3,h4{margin:0;font-weight:700;}
+p{margin:0;}
+
+.slate{color:var(--slate);}
+.hidden{display:none !important;}
+
+/* ---- shared primitives ---- */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:16px;
+}
+.stat-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px 16px;
+}
+.stat-card .stat-label{font-size:12.5px;color:var(--slate);margin-bottom:8px;}
+.stat-card .stat-value{font-size:22px;font-weight:700;letter-spacing:-.2px;}
+
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:600;
+}
+.pill-teal{background:var(--teal-dim);color:var(--teal);}
+.pill-warning{background:var(--warning-dim);color:var(--warning);}
+.pill-danger{background:var(--danger-dim);color:var(--danger);}
+.pill-slate{background:rgba(139,152,172,0.14);color:var(--slate);}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border-radius:var(--radius-sm);border:1px solid transparent;
+  padding:11px 18px;font-size:14.5px;font-weight:600;cursor:pointer;
+  transition:background .15s ease, border-color .15s ease;
+}
+.btn-primary{background:var(--teal);color:#00201c;}
+.btn-primary:hover{background:#0fa696;}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--white);}
+.btn-outline:hover{border-color:var(--slate);}
+.btn-sm{padding:7px 12px;font-size:13px;}
+.btn:disabled{opacity:.55;cursor:not-allowed;}
+
+input[type=text], input[type=email], input[type=password], input[type=number], textarea, select{
+  width:100%;background:var(--surface-2);border:1px solid var(--border);
+  border-radius:var(--radius-sm);color:var(--white);padding:10px 12px;
+  font-size:14.5px;font-family:inherit;outline:none;
+}
+input:focus, textarea:focus, select:focus{border-color:var(--teal);}
+label{font-size:12.5px;color:var(--slate);display:block;margin-bottom:6px;}
+.field{margin-bottom:14px;}
+
+.empty-state{
+  padding:40px 20px;text-align:center;color:var(--slate);font-size:14px;
+}
+.error-state{
+  padding:16px;border:1px solid var(--danger);background:var(--danger-dim);
+  border-radius:var(--radius-sm);color:var(--danger);font-size:13.5px;
+}
+.skeleton{
+  background:linear-gradient(90deg, var(--surface-2) 0%, var(--border) 50%, var(--surface-2) 100%);
+  background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px;
+}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+/* toast */
+#toast-host{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:999;display:flex;flex-direction:column;gap:8px;align-items:center;}
+.toast{
+  background:var(--surface);border:1px solid var(--border);color:var(--white);
+  padding:10px 16px;border-radius:999px;font-size:13.5px;box-shadow:0 8px 24px rgba(0,0,0,.4);
+  animation:toast-in .18s ease;
+}
+.toast.toast-error{border-color:var(--danger);color:var(--danger);}
+@keyframes toast-in{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* auth gate modal, shared by both apps */
+#auth-gate{
+  position:fixed;inset:0;background:rgba(4,8,16,0.72);z-index:900;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+#auth-gate .auth-box{width:100%;max-width:340px;}
+#auth-gate .auth-title{font-size:19px;margin-bottom:4px;}
+#auth-gate .auth-sub{font-size:13.5px;color:var(--slate);margin-bottom:18px;}
+
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:8px;}
