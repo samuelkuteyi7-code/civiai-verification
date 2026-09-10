@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CiviAI Verification Console</title>
+<link rel="stylesheet" href="assets/theme.css">
+</head>
+<body>
+
+<div class="vc-topbar">
+  <button class="vc-hamburger" id="vc-hamburger" aria-label="Open menu">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="vc-brand">CIVI<span>AI</span></div>
+</div>
+<div class="vc-drawer-backdrop" id="vc-drawer-backdrop"></div>
+
+<div id="vc-shell">
+  <div id="vc-sidebar">
+    <div class="vc-brand">CIVI<span>AI</span></div>
+    <button class="vc-nav-item active" data-nav="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+      Dashboard
+    </button>
+    <button class="vc-nav-item" data-nav="queue">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Verification Queue
+    </button>
+    <button class="vc-nav-item" data-nav="evidence">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Evidence Vault
+    </button>
+    <button class="vc-nav-item" data-nav="projects">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="21" x2="21" y2="21"/><line x1="5" y1="21" x2="5" y2="10"/><line x1="9" y1="21" x2="9" y2="10"/><line x1="15" y1="21" x2="15" y2="10"/><line x1="19" y1="21" x2="19" y2="10"/><polygon points="12,3 21,9 3,9"/></svg>
+      Projects
+    </button>
+    <button class="vc-nav-item" data-nav="fieldreports">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="17" y2="13"/><line x1="7" y1="17" x2="12" y2="17"/></svg>
+      Field Reports
+    </button>
+    <button class="vc-nav-item" data-nav="discrepancies">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Discrepancies
+    </button>
+    <button class="vc-nav-item" data-nav="analytics">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Analytics
+    </button>
+    <button class="vc-nav-item" data-nav="team">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Team
+    </button>
+    <button class="vc-nav-item" data-nav="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </button>
+    <div class="vc-sidebar-foot">
+      <div class="vc-avatar" id="vc-user-initial">?</div>
+      <div>
+        <div class="vc-foot-name" id="vc-user-name">Loading…</div>
+        <div class="vc-foot-role">Verification team</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="vc-main"></div>
+</div>
+
+<script src="assets/api.js"></script>
+<script>
+  const state = {
+    view: "dashboard",
+    dashboard: null,
+    queue: [],
+    discrepancies: [],
+    discrepanciesExpanded: false,
+    workspaceIndex: -1,
+    workspaceClaim: null,
+    workspaceProjectId: null,
+    vaultProjects: null,
+  };
+
+  function ptCap(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1).replaceAll("_"," ") : ""; }
+  function statusClass(status){
+    if(status === "human_verified" || status === "published" || status === "verified") return "vc-status-verified";
+    if(status === "rejected" || status === "conflicting") return "vc-status-danger";
+    if(status === "submitted") return "vc-status-pending";
+    return "vc-status-progress";
+  }
+
+  document.querySelectorAll("[data-nav]").forEach(btn => {
+    btn.addEventListener("click", () => { setActiveNav(btn.dataset.nav); closeDrawer(); });
+  });
+
+  function openDrawer(){
+    document.getElementById("vc-sidebar").classList.add("open");
+    document.getElementById("vc-drawer-backdrop").classList.add("open");
+  }
+  function closeDrawer(){
+    document.getElementById("vc-sidebar").classList.remove("open");
+    document.getElementById("vc-drawer-backdrop").classList.remove("open");
+  }
+  document.getElementById("vc-hamburger").addEventListener("click", openDrawer);
+  document.getElementById("vc-drawer-backdrop").addEventListener("click", closeDrawer);
+
+  function setActiveNav(key){
+    document.querySelectorAll("[data-nav]").forEach(b => b.classList.toggle("active", b.dataset.nav === key));
+    if(["dashboard","queue","evidence","discrepancies"].includes(key)){
+      if(state.view !== "dashboard"){ renderDashboardShell(); loadAll(); }
+      setTimeout(() => {
+        const anchor = {dashboard:"vc-top", queue:"section-queue", evidence:"section-evidence", discrepancies:"section-discrepancy"}[key];
+        const el = document.getElementById(anchor);
+        if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
+      }, state.view !== "dashboard" ? 80 : 0);
+      state.view = "dashboard";
+    } else if(key === "projects"){
+      state.view = "projects";
+      renderProjectsView();
+    } else {
+      state.view = "placeholder";
+      renderPlaceholder(key);
+    }
+  }
+
+  function renderPlaceholder(key){
+    const labels = {fieldreports:"Field Reports", analytics:"Analytics", team:"Team", settings:"Settings"};
+    document.getElementById("vc-main").innerHTML = `
+      <div class="vc-page-header"><div><div class="vc-page-title">${labels[key]}</div></div></div>
+      <div class="vc-panel"><div class="vc-panel-body" style="max-height:none;"><div class="empty-state">This isn't wired up on the backend yet.</div></div></div>
+    `;
+  }
+
+  async function renderProjectsView(){
+    const main = document.getElementById("vc-main");
+    main.innerHTML = `
+      <div class="vc-page-header">
+        <div><div class="vc-page-title">Projects</div><div class="vc-page-sub">Every project tracked for your country.</div></div>
+        <button class="btn btn-primary btn-sm" id="vc-add-project-toggle">+ Add Project</button>
+      </div>
+      <div class="vc-panel" style="margin-bottom:16px;">
+        <div id="vc-add-project-form" class="hidden" style="padding:16px;">
+          <div class="field"><label>Name</label><input type="text" id="ap-name" placeholder="e.g. Akungba Road Rehabilitation"></div>
+          <div class="field"><label>Description (optional)</label><textarea id="ap-description" rows="2"></textarea></div>
+          <div class="field"><label>Location</label><input type="text" id="ap-location" placeholder="e.g. Akungba-Akoko, Ondo State"></div>
+          <div class="field"><label>Agency</label><input type="text" id="ap-agency" placeholder="e.g. Ondo State Ministry of Works"></div>
+          <div class="field"><label>Status</label>
+            <select id="ap-status">
+              <option value="planned">Planned</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="delayed">Delayed</option>
+              <option value="completed">Completed</option>
+              <option value="abandoned">Abandoned</option>
+            </select>
+          </div>
+          <div class="field"><label>Start date (optional)</label><input type="text" id="ap-start-date" placeholder="e.g. 2025-01-14"></div>
+          <div class="field"><label>Expected completion (optional)</label><input type="text" id="ap-completion-date" placeholder="e.g. 2027-12-30"></div>
+          <div class="field"><label>Original budget (optional, Naira)</label><input type="number" id="ap-budget" placeholder="e.g. 10000000000"></div>
+          <div class="field"><label>Contractor name (optional)</label><input type="text" id="ap-contractor" placeholder="e.g. ABC Construction Ltd."></div>
+          <button class="btn btn-primary" id="ap-submit">Create project</button>
+        </div>
+      </div>
+      <div class="vc-panel"><div class="vc-panel-body" style="max-height:none;"><div class="empty-state">Loading…</div></div></div>
+    `;
+    document.getElementById("vc-add-project-toggle").addEventListener("click", () => {
+      document.getElementById("vc-add-project-form").classList.toggle("hidden");
+    });
+    document.getElementById("ap-submit").addEventListener("click", async () => {
+      const name = document.getElementById("ap-name").value.trim();
+      if(!name){ showToast("A project name is required.", true); return; }
+      const btn = document.getElementById("ap-submit");
+      btn.disabled = true;
+      try{
+        await apiFetch("/projects/", {
+          method: "POST",
+          body: JSON.stringify({
+            name,
+            description: document.getElementById("ap-description").value || null,
+            location: document.getElementById("ap-location").value || null,
+            agency: document.getElementById("ap-agency").value || null,
+            status: document.getElementById("ap-status").value,
+            start_date: document.getElementById("ap-start-date").value || null,
+            completion_date: document.getElementById("ap-completion-date").value || null,
+            budget_amount: document.getElementById("ap-budget").value ? parseFloat(document.getElementById("ap-budget").value) : null,
+            contractor: document.getElementById("ap-contractor").value || null,
+          }),
+        });
+        showToast("Project created.");
+        renderProjectsView();
+      }catch(e){
+        showToast(e.message, true);
+      }finally{
+        btn.disabled = false;
+      }
+    });
+    try{
+      const projects = await apiFetch("/projects/");
+      const body = main.querySelector(".vc-panel-body");
+      if(!projects.length){ body.innerHTML = '<div class="empty-state">No projects yet.</div>'; return; }
+      body.innerHTML = `
+        <table class="vc-table">
+          <thead><tr><th>Project</th><th>Location</th><th>Status</th><th>Progress</th></tr></thead>
+          <tbody>${projects.map(p => `
+            <tr>
+              <td>${escapeHtml(p.name)}</td>
+              <td>${escapeHtml(p.location || "\u2014")}</td>
+              <td><span class="vc-status ${statusClass(p.status)}">${ptCap(p.status)}</span></td>
+              <td>${p.percent_complete}%</td>
+            </tr>
+          `).join("")}</tbody>
+        </table>
+      `;
+    }catch(e){
+      main.querySelector(".vc-panel-body").innerHTML = `<div class="error-state">${e.message}</div>`;
+    }
+  }
+
+  function renderDashboardShell(){
+    document.getElementById("vc-main").innerHTML = `
+      <div id="vc-top"></div>
+      <div class="vc-page-header">
+        <div>
+          <div class="vc-page-title">Verification Dashboard</div>
+          <div class="vc-page-sub" id="vc-greeting">Loading…</div>
+        </div>
+      </div>
+
+      <div class="vc-stat-grid" id="vc-stats">
+        <div class="vc-stat-card"><div class="skeleton" style="height:60px;"></div></div>
+        <div class="vc-stat-card"><div class="skeleton" style="height:60px;"></div></div>
+        <div class="vc-stat-card"><div class="skeleton" style="height:60px;"></div></div>
+        <div class="vc-stat-card"><div class="skeleton" style="height:60px;"></div></div>
+      </div>
+
+      <div class="vc-section-label"><h3>Priority Verification</h3></div>
+      <div class="vc-priority-row" id="vc-priority"><div class="empty-state">Loading…</div></div>
+
+      <div class="vc-panel" id="section-queue" style="margin-bottom:16px;">
+        <div class="vc-panel-head">
+          <h3>Verification Queue</h3>
+          <div style="display:flex;gap:10px;flex:1;">
+            <div class="vc-searchbar"><input type="text" id="vc-queue-search" placeholder="Search by project or claim…"></div>
+            <button class="btn btn-primary btn-sm" id="vc-new-submission-toggle">+ New Submission</button>
+          </div>
+        </div>
+        <div id="vc-new-submission-form" class="hidden" style="padding:16px;border-bottom:1px solid var(--border);">
+          <div class="field"><label>Project ID</label><input type="number" id="ns-project-id" placeholder="e.g. 12"></div>
+          <div class="field"><label>Evidence ID (optional, if this claim cites a specific evidence item)</label><input type="number" id="ns-evidence-id" placeholder="e.g. 4"></div>
+          <div class="field"><label>Claim</label><textarea id="ns-claim-text" rows="3" placeholder="e.g. Approximately 72% of the project has been completed."></textarea></div>
+          <button class="btn btn-primary" id="ns-submit">Submit for review</button>
+        </div>
+        <div class="vc-panel-body" id="vc-queue-body"><div class="empty-state">Loading…</div></div>
+      </div>
+
+      <div class="vc-panel" id="section-workspace" style="margin-bottom:16px;">
+        <div class="vc-panel-head">
+          <h3>Verification Workspace</h3>
+          <div class="vc-ws-nav">
+            <span class="slate" id="vc-ws-counter" style="font-size:12.5px;"></span>
+            <button id="vc-ws-prev">‹</button>
+            <button id="vc-ws-next">›</button>
+          </div>
+        </div>
+        <div id="vc-workspace-body"><div class="empty-state">No claim selected. Pick "Review" from the queue above.</div></div>
+      </div>
+
+      <div class="vc-grid-2">
+        <div class="vc-panel" id="section-evidence">
+          <div class="vc-panel-head">
+            <h3>Evidence Vault</h3>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <select id="vc-vault-project" style="width:auto;min-width:140px;"><option value="">Select a project</option></select>
+              <button class="btn btn-primary btn-sm" id="vc-upload-evidence-toggle">Upload Evidence</button>
+            </div>
+          </div>
+          <div id="vc-upload-evidence-form" class="hidden" style="padding:16px;border-bottom:1px solid var(--border);">
+            <div class="field"><label>Project ID</label><input type="number" id="ue-project-id" placeholder="e.g. 12"></div>
+            <div class="field"><label>Evidence type</label>
+              <select id="ue-type">
+                <option value="document">Document</option>
+                <option value="photo">Photo</option>
+                <option value="video">Video</option>
+                <option value="audio">Audio</option>
+                <option value="gps">GPS</option>
+                <option value="observation">Observation</option>
+              </select>
+            </div>
+            <div class="field"><label>Source</label><input type="text" id="ue-source" placeholder="e.g. Ondo State Ministry of Works"></div>
+            <div class="field"><label>Location (optional)</label><input type="text" id="ue-location" placeholder="e.g. Akungba-Akoko, Ondo State"></div>
+            <div class="field"><label>File URL (optional)</label><input type="text" id="ue-file-url" placeholder="Link to the file, if hosted elsewhere"></div>
+            <div class="field"><label>Notes / description</label><textarea id="ue-content" rows="3" placeholder="What does this evidence show?"></textarea></div>
+            <button class="btn btn-primary" id="ue-submit">Submit evidence</button>
+          </div>
+          <div class="vc-panel-body" id="vc-vault-body"><div class="empty-state">Choose a project above.</div></div>
+        </div>
+        <div class="vc-panel" id="section-history">
+          <div class="vc-panel-head"><h3>Verification History</h3></div>
+          <div class="vc-panel-body" id="vc-history-body" style="padding:16px;"><div class="empty-state">Open a claim in the workspace to see its history.</div></div>
+        </div>
+      </div>
+
+      <div class="vc-grid-3">
+        <div class="vc-panel">
+          <div class="vc-panel-head"><h3>Verification Process Flow</h3></div>
+          <div class="vc-flow-strip">
+            <div class="vc-flow-step"><div class="vc-flow-circle">1</div><div class="t">Submit</div><div class="m">Field worker submits evidence</div></div>
+            <div class="vc-flow-step"><div class="vc-flow-circle">2</div><div class="t">Review</div><div class="m">Evidence is checked</div></div>
+            <div class="vc-flow-step"><div class="vc-flow-circle">3</div><div class="t">Corroborate</div><div class="m">Cross-checked with sources</div></div>
+            <div class="vc-flow-step"><div class="vc-flow-circle">4</div><div class="t">Verify</div><div class="m">Human reviewer decides</div></div>
+            <div class="vc-flow-step"><div class="vc-flow-circle">5</div><div class="t">Publish</div><div class="m">Verified data published</div></div>
+          </div>
+        </div>
+        <div class="vc-panel">
+          <div class="vc-panel-head"><h3>Data Confidence Levels</h3></div>
+          <div style="padding:6px 0 12px;">
+            <div class="vc-confidence-row"><span class="vc-confidence-dot" style="background:var(--teal);"></span><div><div class="t">Verified</div><div class="m">Strong evidence and human verified</div></div></div>
+            <div class="vc-confidence-row"><span class="vc-confidence-dot" style="background:var(--blue);"></span><div><div class="t">Supported</div><div class="m">Multiple credible sources</div></div></div>
+            <div class="vc-confidence-row"><span class="vc-confidence-dot" style="background:var(--slate);"></span><div><div class="t">Reported</div><div class="m">Source reports it, not yet verified</div></div></div>
+            <div class="vc-confidence-row"><span class="vc-confidence-dot" style="background:var(--warning);"></span><div><div class="t">Conflicting</div><div class="m">Sources disagree</div></div></div>
+            <div class="vc-confidence-row"><span class="vc-confidence-dot" style="background:var(--danger);"></span><div><div class="t">Unknown</div><div class="m">Insufficient evidence</div></div></div>
+          </div>
+        </div>
+        <div class="vc-panel vc-discrepancy-panel" id="section-discrepancy">
+          <div class="vc-panel-head"><h3>Discrepancy Detection</h3></div>
+          <div id="vc-discrepancy-body" style="padding:14px 16px;"><div class="empty-state">Loading…</div></div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById("vc-queue-search").addEventListener("input", (e) => renderQueueTable(e.target.value.trim().toLowerCase()));
+    document.getElementById("vc-ws-prev").addEventListener("click", () => moveWorkspace(-1));
+    document.getElementById("vc-ws-next").addEventListener("click", () => moveWorkspace(1));
+    document.getElementById("vc-vault-project").addEventListener("change", (e) => loadVault(e.target.value));
+
+    document.getElementById("vc-new-submission-toggle").addEventListener("click", () => {
+      document.getElementById("vc-new-submission-form").classList.toggle("hidden");
+    });
+    document.getElementById("ns-submit").addEventListener("click", async () => {
+      const projectId = document.getElementById("ns-project-id").value;
+      const claimText = document.getElementById("ns-claim-text").value.trim();
+      if(!projectId || !claimText){ showToast("A project ID and claim text are required.", true); return; }
+      const btn = document.getElementById("ns-submit");
+      btn.disabled = true;
+      try{
+        const evidenceIdRaw = document.getElementById("ns-evidence-id").value;
+        await apiFetch("/verification/", {
+          method: "POST",
+          body: JSON.stringify({
+            project_id: parseInt(projectId, 10),
+            evidence_id: evidenceIdRaw ? parseInt(evidenceIdRaw, 10) : null,
+            claim_text: claimText,
+          }),
+        });
+        showToast("Claim submitted for review.");
+        document.getElementById("ns-project-id").value = "";
+        document.getElementById("ns-evidence-id").value = "";
+        document.getElementById("ns-claim-text").value = "";
+        document.getElementById("vc-new-submission-form").classList.add("hidden");
+        await Promise.all([loadDashboard(), loadQueue()]);
+      }catch(e){
+        showToast(e.message, true);
+      }finally{
+        btn.disabled = false;
+      }
+    });
+
+    document.getElementById("vc-upload-evidence-toggle").addEventListener("click", () => {
+      document.getElementById("vc-upload-evidence-form").classList.toggle("hidden");
+    });
+    document.getElementById("ue-submit").addEventListener("click", async () => {
+      const projectId = document.getElementById("ue-project-id").value;
+      if(!projectId){ showToast("A project ID is required.", true); return; }
+      const btn = document.getElementById("ue-submit");
+      btn.disabled = true;
+      try{
+        await apiFetch("/evidence/", {
+          method: "POST",
+          body: JSON.stringify({
+            project_id: parseInt(projectId, 10),
+            evidence_type: document.getElementById("ue-type").value,
+            source: document.getElementById("ue-source").value || null,
+            location: document.getElementById("ue-location").value || null,
+            file_url: document.getElementById("ue-file-url").value || null,
+            content: document.getElementById("ue-content").value || null,
+          }),
+        });
+        showToast("Evidence submitted.");
+        document.getElementById("ue-project-id").value = "";
+        document.getElementById("ue-source").value = "";
+        document.getElementById("ue-location").value = "";
+        document.getElementById("ue-file-url").value = "";
+        document.getElementById("ue-content").value = "";
+        document.getElementById("vc-upload-evidence-form").classList.add("hidden");
+        const vaultSelect = document.getElementById("vc-vault-project");
+        if(vaultSelect.value === projectId) loadVault(projectId);
+      }catch(e){
+        showToast(e.message, true);
+      }finally{
+        btn.disabled = false;
+      }
+    });
+  }
+
+  async function loadAll(){
+    await Promise.all([loadDashboard(), loadQueue(), loadDiscrepancies(), loadVaultProjectOptions()]);
+    if(state.queue.length) openWorkspaceByIndex(0);
+  }
+
+  async function loadDashboard(){
+    try{
+      const data = await apiFetch("/verification/dashboard");
+      state.dashboard = data;
+      document.getElementById("vc-greeting").textContent = "Good day, Research Team";
+      document.getElementById("vc-stats").innerHTML = `
+        <div class="vc-stat-card">
+          <div class="vc-stat-top"><span class="vc-stat-label">Pending Review</span>
+            <span class="vc-stat-icon" style="background:var(--warning-dim);color:var(--warning);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></span>
+          </div>
+          <div class="vc-stat-value">${data.counts.pending_review}</div>
+        </div>
+        <div class="vc-stat-card">
+          <div class="vc-stat-top"><span class="vc-stat-label">In Verification</span>
+            <span class="vc-stat-icon" style="background:rgba(96,165,250,0.14);color:var(--blue);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/><polyline points="21,3 21,9 15,9"/></svg></span>
+          </div>
+          <div class="vc-stat-value">${data.counts.in_verification}</div>
+        </div>
+        <div class="vc-stat-card">
+          <div class="vc-stat-top"><span class="vc-stat-label">Verified</span>
+            <span class="vc-stat-icon" style="background:var(--teal-dim);color:var(--teal);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg></span>
+          </div>
+          <div class="vc-stat-value">${data.counts.verified}</div>
+        </div>
+        <div class="vc-stat-card">
+          <div class="vc-stat-top"><span class="vc-stat-label">Flagged / Issues</span>
+            <span class="vc-stat-icon" style="background:var(--danger-dim);color:var(--danger);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>
+          </div>
+          <div class="vc-stat-value">${data.counts.flagged}</div>
+        </div>
+      `;
+
+      const box = document.getElementById("vc-priority");
+      if(!data.priority.length){
+        box.innerHTML = '<div class="empty-state">Nothing pending review right now.</div>';
+      } else {
+        box.innerHTML = data.priority.slice(0, 6).map((item, i) => {
+          const tagClass = i === 0 ? "vc-tag-new" : (item.status === "submitted" ? "vc-tag-attention" : "vc-tag-discrepancy");
+          const tagLabel = i === 0 ? "New Submission" : (item.status === "submitted" ? "Needs Attention" : "In Review");
+          return `
+            <div class="vc-priority-card">
+              <span class="vc-tag ${tagClass}">${tagLabel}</span>
+              <div class="vc-priority-title">${escapeHtml(item.project_name)}</div>
+              <div class="vc-priority-meta">${escapeHtml(item.claim_text.slice(0, 60))}${item.claim_text.length > 60 ? "…" : ""}</div>
+              <div class="vc-priority-meta">Contract value: <b style="color:var(--white);">${formatNaira(item.contracted_amount)}</b></div>
+              <div class="vc-priority-img">No image on file</div>
+              <div class="vc-priority-foot">
+                <span class="slate" style="font-size:11px;">${formatDate(item.created_at)}</span>
+                <button class="btn btn-primary btn-sm" data-open-claim="${item.id}" data-project="${item.project_id}">Review</button>
+              </div>
+            </div>
+          `;
+        }).join("");
+        box.querySelectorAll("[data-open-claim]").forEach(btn => {
+          btn.addEventListener("click", () => openWorkspaceForClaim(btn.dataset.openClaim, btn.dataset.project));
+        });
+      }
+    }catch(e){
+      document.getElementById("vc-stats").innerHTML = `<div class="error-state">${e.message}</div>`;
+    }
+  }
+
+  async function loadQueue(){
+    try{
+      state.queue = await apiFetch("/verification/queue");
+      renderQueueTable("");
+    }catch(e){
+      document.getElementById("vc-queue-body").innerHTML = `<div class="error-state">${e.message}</div>`;
+    }
+  }
+
+  function renderQueueTable(filterText){
+    const box = document.getElementById("vc-queue-body");
+    const items = filterText
+      ? state.queue.filter(v => v.claim_text.toLowerCase().includes(filterText) || String(v.project_id).includes(filterText))
+      : state.queue;
+    if(!items.length){ box.innerHTML = '<div class="empty-state">Queue is empty.</div>'; return; }
+    box.innerHTML = `
+      <table class="vc-table">
+        <thead><tr><th>Project / Claim</th><th>Status</th><th>Confidence</th><th>Updated</th><th></th></tr></thead>
+        <tbody>${items.map(v => `
+          <tr>
+            <td><div class="vc-cell-title"><span class="t">Project #${v.project_id}</span><span class="m">${escapeHtml(v.claim_text.slice(0, 50))}${v.claim_text.length > 50 ? "…" : ""}</span></div></td>
+            <td><span class="vc-status ${statusClass(v.status)}">${ptCap(v.status)}</span></td>
+            <td>${v.confidence_label ? ptCap(v.confidence_label) : "\u2014"}</td>
+            <td>${formatDate(v.updated_at)}</td>
+            <td><button class="vc-row-link" data-open-claim="${v.id}" data-project="${v.project_id}">Review</button></td>
+          </tr>
+        `).join("")}</tbody>
+      </table>
+    `;
+    box.querySelectorAll("[data-open-claim]").forEach(btn => {
+      btn.addEventListener("click", () => openWorkspaceForClaim(btn.dataset.openClaim, btn.dataset.project));
+    });
+  }
+
+  function openWorkspaceForClaim(claimId, projectId){
+    const idx = state.queue.findIndex(v => String(v.id) === String(claimId));
+    openWorkspaceByIndex(idx >= 0 ? idx : 0, claimId, projectId);
+    document.getElementById("section-workspace").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  function moveWorkspace(delta){
+    const next = state.workspaceIndex + delta;
+    if(next < 0 || next >= state.queue.length) return;
+    openWorkspaceByIndex(next);
+  }
+
+  async function openWorkspaceByIndex(index, fallbackClaimId, fallbackProjectId){
+    const item = state.queue[index];
+    const claimId = item ? item.id : fallbackClaimId;
+    const projectId = item ? item.project_id : fallbackProjectId;
+    if(!claimId || !projectId) return;
+
+    state.workspaceIndex = index;
+    state.workspaceProjectId = projectId;
+    document.getElementById("vc-ws-counter").textContent = `Claim ${index + 1} of ${state.queue.length}`;
+    document.getElementById("vc-ws-prev").disabled = index <= 0;
+    document.getElementById("vc-ws-next").disabled = index >= state.queue.length - 1;
+
+    const body = document.getElementById("vc-workspace-body");
+    body.innerHTML = `<div class="empty-state">Loading claim…</div>`;
+    try{
+      const history = await apiFetch(`/verification/project/${projectId}/history`);
+      const claim = history.find(v => String(v.id) === String(claimId));
+      if(!claim) throw new Error("Claim not found for this project.");
+      state.workspaceClaim = claim;
+
+      const evidence = await apiFetch(`/evidence/project/${projectId}`).catch(() => []);
+
+      body.innerHTML = `
+        <div class="vc-workspace">
+          <div class="vc-ws-col">
+            <div class="vc-panel-head" style="padding:0 0 10px;border:none;"><h3>1. Claim Details</h3></div>
+            <div class="vc-ws-label">Claim #${claim.id}</div>
+            <div class="vc-ws-value">"${escapeHtml(claim.claim_text)}"</div>
+            <div class="vc-ws-label">Project</div>
+            <div class="vc-ws-value">#${claim.project_id}</div>
+            <div class="vc-ws-label">Status</div>
+            <div class="vc-ws-value"><span class="vc-status ${statusClass(claim.status)}">${ptCap(claim.status)}</span></div>
+            <div class="vc-ai-badge">AI: ${claim.ai_assessment || "Not yet assessed"}</div>
+          </div>
+          <div class="vc-ws-col">
+            <div class="vc-panel-head" style="padding:0 0 10px;border:none;"><h3>2. Evidence</h3></div>
+            <div id="vc-ws-evidence">${evidence.length ? evidence.map(ev => `
+              <div class="vc-evidence-item" style="${String(ev.id)===String(claim.evidence_id) ? 'color:var(--teal);' : ''}">
+                <span class="vc-ev-tag">${escapeHtml(ev.evidence_type)}</span>
+                ${String(ev.id)===String(claim.evidence_id) ? '<span class="vc-ev-tag" style="background:var(--teal-dim);color:var(--teal);margin-left:4px;">Cited</span>' : ''}
+                <div style="font-size:12.5px;margin-top:6px;">${escapeHtml(ev.source || "Source not specified")}</div>
+                <div class="slate" style="font-size:11px;">${formatDate(ev.created_at)}</div>
+              </div>
+            `).join("") : '<div class="empty-state">No evidence submitted for this project.</div>'}</div>
+          </div>
+          <div class="vc-ws-col">
+            <div class="vc-panel-head" style="padding:0 0 10px;border:none;"><h3>3. Verification Decision</h3></div>
+            <div class="vc-decision-option" data-status="human_verified" data-confidence="verified">
+              <input type="radio" name="vc-decision">
+              <div><div class="t">Verified</div><div class="m">Claim is supported by sufficient evidence</div></div>
+            </div>
+            <div class="vc-decision-option" data-status="reviewed" data-confidence="unknown">
+              <input type="radio" name="vc-decision">
+              <div><div class="t">Needs More Evidence</div><div class="m">More information is required</div></div>
+            </div>
+            <div class="vc-decision-option" data-status="rejected" data-confidence="">
+              <input type="radio" name="vc-decision">
+              <div><div class="t">Unsupported</div><div class="m">Evidence does not support this claim</div></div>
+            </div>
+            <div class="vc-decision-option" data-status="rejected" data-confidence="conflicting">
+              <input type="radio" name="vc-decision">
+              <div><div class="t">Conflicting Evidence</div><div class="m">Evidence from sources conflict</div></div>
+            </div>
+            <div class="vc-ws-label">Reviewer note (optional)</div>
+            <textarea id="vc-decision-note" rows="3" placeholder="Add your explanation…" style="margin-bottom:12px;"></textarea>
+            <button class="btn btn-primary" id="vc-submit-decision" style="width:100%;">Submit Verification</button>
+          </div>
+        </div>
+      `;
+
+      body.querySelectorAll(".vc-decision-option").forEach(opt => {
+        opt.addEventListener("click", () => {
+          body.querySelectorAll(".vc-decision-option").forEach(o => { o.classList.remove("selected"); o.querySelector("input").checked = false; });
+          opt.classList.add("selected");
+          opt.querySelector("input").checked = true;
+        });
+      });
+
+      document.getElementById("vc-submit-decision").addEventListener("click", async () => {
+        const selected = body.querySelector(".vc-decision-option.selected");
+        if(!selected){ showToast("Choose a reviewer decision first.", true); return; }
+        const btn = document.getElementById("vc-submit-decision");
+        btn.disabled = true;
+        try{
+          await apiFetch(`/verification/${claim.id}/decision`, {
+            method: "PATCH",
+            body: JSON.stringify({
+              status: selected.dataset.status,
+              confidence_label: selected.dataset.confidence || null,
+              reviewer_note: document.getElementById("vc-decision-note").value || null,
+            }),
+          });
+          showToast("Decision recorded.");
+          await Promise.all([loadDashboard(), loadQueue()]);
+        }catch(err){
+          showToast(err.message, true);
+        }finally{
+          btn.disabled = false;
+        }
+      });
+
+      renderHistory(projectId);
+    }catch(e){
+      body.innerHTML = `<div class="error-state">${e.message}</div>`;
+    }
+  }
+
+  async function renderHistory(projectId){
+    const box = document.getElementById("vc-history-body");
+    box.innerHTML = `<div class="empty-state">Loading…</div>`;
+    try{
+      const history = await apiFetch(`/verification/project/${projectId}/history`);
+      if(!history.length){ box.innerHTML = '<div class="empty-state">No verification history for this project yet.</div>'; return; }
+      box.innerHTML = history.slice().reverse().map(v => `
+        <div class="vc-history-item">
+          <div class="t">${ptCap(v.status)}${v.confidence_label ? " — " + ptCap(v.confidence_label) : ""}</div>
+          <div class="d">${formatDate(v.updated_at)}</div>
+          <div class="slate" style="font-size:12px;margin-top:2px;">${escapeHtml(v.claim_text.slice(0, 70))}${v.claim_text.length > 70 ? "…" : ""}</div>
+        </div>
+      `).join("");
+    }catch(e){
+      box.innerHTML = `<div class="error-state">${e.message}</div>`;
+    }
+  }
+
+  async function loadVaultProjectOptions(){
+    try{
+      state.vaultProjects = await apiFetch("/projects/");
+      const select = document.getElementById("vc-vault-project");
+      select.innerHTML = `<option value="">Select a project</option>` +
+        state.vaultProjects.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join("");
+    }catch(e){ /* left as "Select a project" — evidence vault will show the error on use */ }
+  }
+
+  async function loadVault(projectId){
+    const box = document.getElementById("vc-vault-body");
+    if(!projectId){ box.innerHTML = '<div class="empty-state">Choose a project above.</div>'; return; }
+    box.innerHTML = `<div class="empty-state">Loading…</div>`;
+    try{
+      const items = await apiFetch(`/evidence/project/${projectId}`);
+      if(!items.length){ box.innerHTML = '<div class="empty-state">No evidence for this project yet.</div>'; return; }
+      box.innerHTML = `
+        <table class="vc-table">
+          <thead><tr><th>Type</th><th>Source</th><th>Status</th><th>Date</th><th></th></tr></thead>
+          <tbody>${items.map(ev => `
+            <tr>
+              <td style="text-transform:capitalize;">${escapeHtml(ev.evidence_type)}</td>
+              <td>${escapeHtml(ev.source || "\u2014")}</td>
+              <td>
+                <select data-status-for="${ev.id}" style="width:auto;padding:5px 8px;font-size:12px;">
+                  <option value="submitted" ${ev.status==="submitted"?"selected":""}>Submitted</option>
+                  <option value="reviewed" ${ev.status==="reviewed"?"selected":""}>Reviewed</option>
+                  <option value="corroborated" ${ev.status==="corroborated"?"selected":""}>Corroborated</option>
+                  <option value="rejected" ${ev.status==="rejected"?"selected":""}>Rejected</option>
+                </select>
+              </td>
+              <td>${formatDate(ev.created_at)}</td>
+              <td><button class="vc-row-link" data-save-status="${ev.id}">Save</button></td>
+            </tr>
+          `).join("")}</tbody>
+        </table>
+      `;
+      box.querySelectorAll("[data-save-status]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const evId = btn.dataset.saveStatus;
+          try{
+            await apiFetch(`/evidence/${evId}/status`, {method:"PATCH", body: JSON.stringify({status: box.querySelector(`[data-status-for="${evId}"]`).value})});
+            showToast("Evidence status updated.");
+          }catch(err){ showToast(err.message, true); }
+        });
+      });
+    }catch(e){
+      box.innerHTML = `<div class="error-state">${e.message}</div>`;
+    }
+  }
+
+  async function loadDiscrepancies(){
+    const box = document.getElementById("vc-discrepancy-body");
+    try{
+      const data = await apiFetch("/insights/discrepancies");
+      state.discrepancies = data.items;
+      renderDiscrepancyBox();
+    }catch(e){
+      box.innerHTML = `<div class="error-state">${e.message}</div>`;
+    }
+  }
+
+  function renderDiscrepancyBox(){
+    const box = document.getElementById("vc-discrepancy-body");
+    if(!state.discrepancies.length){
+      box.innerHTML = '<div class="empty-state">No discrepancies above the review threshold right now.</div>';
+      return;
+    }
+    const shown = state.discrepanciesExpanded ? state.discrepancies : state.discrepancies.slice(0, 1);
+    box.innerHTML = shown.map(d => `
+      <div style="margin-bottom:12px;">
+        <div style="font-weight:700;color:var(--danger);font-size:13px;">Discrepancy Detected</div>
+        <div style="font-weight:600;margin:4px 0 2px;">${escapeHtml(d.project_name)}</div>
+        <div class="slate" style="font-size:12px;">Reported ${formatNaira(d.reported_value)} · Verified ${formatNaira(d.verified_value)}</div>
+        <div style="font-size:12.5px;margin-top:6px;">${escapeHtml(d.note)}</div>
+      </div>
+    `).join("") + (state.discrepancies.length > 1 ? `
+      <button class="btn btn-outline btn-sm" id="vc-toggle-discrepancies" style="width:100%;">
+        ${state.discrepanciesExpanded ? "Show less" : `Investigate Further (${state.discrepancies.length - 1} more)`}
+      </button>
+    ` : "");
+    const toggle = document.getElementById("vc-toggle-discrepancies");
+    if(toggle) toggle.addEventListener("click", () => { state.discrepanciesExpanded = !state.discrepanciesExpanded; renderDiscrepancyBox(); });
+  }
+
+  async function loadCurrentUser(){
+    try{
+      const me = await apiFetch("/auth/me");
+      document.getElementById("vc-user-name").textContent = me.name || me.email || "Reviewer";
+      document.getElementById("vc-user-initial").textContent = (me.name || me.email || "?").charAt(0).toUpperCase();
+    }catch(e){ /* not fatal — sidebar just keeps the placeholder */ }
+  }
+
+  const ALLOWED_ROLES = ["researcher", "reviewer", "admin"];
+
+  function renderAccessDenied(role, email){
+    document.getElementById("vc-shell").innerHTML = `
+      <div id="vc-access-denied">
+        <div class="vlogin-brand" style="justify-content:center;margin-bottom:24px;">
+          <img src="assets/logo.png" alt="CiviAI logo" style="width:30px;height:30px;border-radius:7px;">
+          <div style="text-align:left;">
+            <div class="name">CIVI<span>AI</span></div>
+            <div class="sub">Verification Console</div>
+          </div>
+        </div>
+        <div class="vad-icon-wrap">
+          <div class="circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+        </div>
+        <h2>Access Restricted</h2>
+        <div class="vad-card">
+          <div class="vad-email-row">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg></span>
+            <span class="email">${escapeHtml(email || "This account")}</span>
+          </div>
+          <div class="vad-line">does not have access to the Verification Console</div>
+          <div class="vad-role">(current role: ${escapeHtml(role || "citizen")})</div>
+          <div class="vad-info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <div>
+              <p>This tool is limited to researcher, reviewer, and admin accounts.</p>
+              <p>Contact an administrator if you believe this is a mistake.</p>
+            </div>
+          </div>
+        </div>
+        <button class="vlogin-signout" id="vc-signout">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign out
+        </button>
+        <div class="vlogin-footer" style="justify-content:center;border-top:none;">
+          <img src="assets/logo.png" alt="">
+          <div style="text-align:left;">
+            <div class="name">CIVI<span>AI</span></div>
+            <div class="tag">Verification Console &middot; People. Projects. Progress.</div>
+          </div>
+        </div>
+      </div>
+    `;
+    document.getElementById("vc-signout").addEventListener("click", () => {
+      clearToken();
+      window.location.reload();
+    });
+  }
+
+  /* ---------------- init ---------------- */
+  function boot(){
+    renderDashboardShell();
+    loadCurrentUser();
+    loadAll();
+  }
+
+  async function checkAccessThenBoot(){
+    try{
+      const me = await apiFetch("/auth/me");
+      if(!ALLOWED_ROLES.includes(me.role)){
+        renderAccessDenied(me.role, me.email);
+        return;
+      }
+      boot();
+    }catch(e){
+      // token invalid/expired — send back to the login gate rather than
+      // silently failing on a blank dashboard
+      clearToken();
+      renderAuthGate(checkAccessThenBoot);
+    }
+  }
+
+  renderAuthGate(checkAccessThenBoot);
+  if(isLoggedIn()) checkAccessThenBoot();
+</script>
+</body>
+</html>
