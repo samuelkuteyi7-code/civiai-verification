@@ -282,10 +282,29 @@ table.vc-table tr:last-child td{border-bottom:none;}
   .vc-panel-body{overflow-x:auto;}
   table.vc-table{min-width:520px;}
   .vc-workspace{grid-template-columns:1fr;}
+  #vc-main{padding-bottom:76px;}
+  .vc-bottom-nav{display:flex;}
 }
 @media (max-width:420px){
   .vc-stat-grid{grid-template-columns:1fr;}
 }
+
+/* ---- nav divider (desktop sidebar) ---- */
+.vc-nav-divider{height:1px;background:var(--border);margin:10px 6px;}
+
+/* ---- mobile bottom nav bar ---- */
+.vc-bottom-nav{
+  display:none;position:fixed;bottom:0;left:0;right:0;z-index:35;
+  background:var(--surface);border-top:1px solid var(--border);
+  padding:6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
+  justify-content:space-around;
+}
+.vc-bn-item{
+  background:none;border:none;color:var(--slate);display:flex;flex-direction:column;
+  align-items:center;gap:3px;font-size:10px;font-weight:600;padding:6px 4px;flex:1;cursor:pointer;
+}
+.vc-bn-item svg{width:19px;height:19px;}
+.vc-bn-item.active{color:var(--teal);}
 
 /* ---- Polished login + access-restricted screens ---- */
 #auth-gate{
