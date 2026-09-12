@@ -28,11 +28,13 @@ async function apiFetch(path, options = {}) {
     throw new Error("Could not reach the CiviAI API. Check API_BASE and your network connection.");
   }
 
-  if (response.status === 401 && token) {
-    // A token was sent and rejected — an existing session actually died.
-    // If NO token was sent (e.g. the login request itself), a 401 means
-    // wrong email/password, not an expired session — let it fall through
-    // below so the real backend message ("Invalid email or password") shows.
+  const isAuthEndpoint = path.startsWith("/auth/login") || path.startsWith("/auth/register") || path.startsWith("/auth/google");
+  if (response.status === 401 && !isAuthEndpoint) {
+    // A request other than login/register got rejected — an existing
+    // session actually died. Login/register are excluded here because a
+    // 401 from THEM means wrong credentials, not an expired session —
+    // even if a stale token happened to be sitting in storage and got
+    // attached to the request anyway.
     clearToken();
     throw new Error("Session expired. Please sign in again.");
   }
